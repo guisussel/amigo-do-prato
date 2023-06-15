@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Amigo do prato</string>
+    <string name="digite_o_nome">Digite o nome</string>
+    <string name="qual_o_nome_do_seu_prato">Qual o nome do seu prato?</string>
+    <string name="qual_o_nivel_de_complexidade">Qual o nível de complexidade?</string>
+    <string name="iniciante">Iniciante</string>
+    <string name="intermediario">Intermediário</string>
+    <string name="experiente">Experiente</string>
+    <string name="que_tipos_de_ingrediente_utilizara">Que tipos de ingrediente utilizará?</string>
+    <string name="frescos">Frescos</string>
+    <string name="congelados">Congelados</string>
+</resources>
