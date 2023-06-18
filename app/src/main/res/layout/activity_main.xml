@@ -13,7 +13,7 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewNomePrato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextNomePrato"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -34,41 +34,41 @@
             android:importantForAutofill="yes"
             android:textColorHint="@color/black"
             android:inputType="text"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintStart_toStartOf="@+id/textViewNomePrato"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNomePrato" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewComplexidade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/qual_o_nivel_de_complexidade"
-            app:layout_constraintStart_toStartOf="@+id/editTextText"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintStart_toStartOf="@+id/editTextNomePrato"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNomePrato" />
 
 
         <RadioGroup
-            android:id="@+id/radio_group"
+            android:id="@+id/radioGroupComplexidade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2">
+            app:layout_constraintStart_toStartOf="@+id/textViewComplexidade"
+            app:layout_constraintTop_toBottomOf="@+id/textViewComplexidade">
 
             <RadioButton
-                android:id="@+id/radio_button1"
+                android:id="@+id/radioButtonIniciante"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/iniciante" />
 
             <RadioButton
-                android:id="@+id/radio_button2"
+                android:id="@+id/radioButtonIntermediario"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/intermediario" />
 
             <RadioButton
-                android:id="@+id/radio_button3"
+                android:id="@+id/radioButtonExperiente"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/experiente" />
@@ -76,32 +76,70 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textViewTiposIngredientes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/que_tipos_de_ingrediente_utilizara"
-            app:layout_constraintStart_toStartOf="@+id/radio_group"
-            app:layout_constraintTop_toBottomOf="@+id/radio_group" />
+            app:layout_constraintStart_toStartOf="@+id/radioGroupComplexidade"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupComplexidade" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxFrescos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/frescos"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintStart_toStartOf="@+id/textViewTiposIngredientes"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTiposIngredientes" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/checkBoxCongelados"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:text="@string/congelados"
-            app:layout_constraintStart_toEndOf="@+id/checkBox"
-            app:layout_constraintTop_toTopOf="@+id/checkBox" />
+            app:layout_constraintStart_toEndOf="@+id/checkBoxFrescos"
+            app:layout_constraintTop_toTopOf="@+id/checkBoxFrescos" />
+
+        <TextView
+            android:id="@+id/textViewCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/qual_a_categoria_da_receita"
+            app:layout_constraintStart_toStartOf="@+id/checkBoxFrescos"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxFrescos" />
+
+        <Spinner
+            android:id="@+id/spinnerCategoria"
+            android:layout_width="350dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/textViewCategoria"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
+
+        <Button
+            android:id="@+id/buttonSalvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:onClick="salvarDados"
+            android:text="@string/salvar"
+            app:layout_constraintStart_toStartOf="@+id/spinnerCategoria"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
+
+        <Button
+            android:id="@+id/buttonLimpar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:onClick="limparCampos"
+            android:text="@string/limpar"
+            app:layout_constraintStart_toEndOf="@+id/buttonSalvar"
+            app:layout_constraintTop_toTopOf="@+id/buttonSalvar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
