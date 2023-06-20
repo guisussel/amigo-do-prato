@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="nomes">
+        <item>Bolo de Chocolate</item>
+        <item>Pizza Margherita</item>
+        <item>Lasanha à Bolonhesa</item>
+        <item>Arroz de Carreteiro</item>
+        <item>Feijoada</item>
+        <item>Frango Assado com Batatas</item>
+        <item>Macarrão à Carbonara</item>
+        <item>Torta de Maçã</item>
+        <item>Salmão Grelhado com Legumes</item>
+        <item>Mousse de Maracujá</item>
+    </string-array>
+
+    <string-array name="categorias">
+        <item>Sobremesa</item>
+        <item>Pizza</item>
+        <item>Massa</item>
+        <item>Prato Principal</item>
+        <item>Prato Principal</item>
+        <item>Prato Principal</item>
+        <item>Massa</item>
+        <item>Sobremesa</item>
+        <item>Peixes e Frutos do Mar</item>
+        <item>Sobremesa</item>
+    </string-array>
+
+    <string-array name="complexidades">
+        <item>Fácil</item>
+        <item>Mediana</item>
+        <item>Difícil</item>
+        <item>Fácil</item>
+        <item>Mediana</item>
+        <item>Mediana</item>
+        <item>Mediana</item>
+        <item>Fácil</item>
+        <item>Mediana</item>
+        <item>Fácil</item>
+    </string-array>
+
+    <string-array name="tempos_de_preparo">
+        <item>60</item>
+        <item>45</item>
+        <item>90</item>
+        <item>40</item>
+        <item>120</item>
+        <item>75</item>
+        <item>30</item>
+        <item>60</item>
+        <item>50</item>
+        <item>15</item>
+    </string-array>
+
+</resources>

@@ -17,4 +17,15 @@
     <string name="selecione_o_nivel_de_complexidade_da_receita">Selecione o nível de complexidade da receita!</string>
     <string name="selecione_o_tipo_de_ingrediente">Selecione o tipo de ingrediente!</string>
     <string name="selecione_a_categoria_da_receita">Selecione a categoria da receita!</string>
+    <string name="tempo_de_preparo">Tempo de preparo:</string>
+    <string name="dificuldade">Dificuldade:</string>
+    <string name="categoria">Categoria:</string>
+    <string name="nome">Nome:</string>
+    <string name="complexidade">Complexidade:</string>
+    <string name="horas">" horas"</string>
+    <string name="minutos_para_preparar">" minutos para preparar!"</string>
+    <string name="que_levara">" que levará "</string>
+    <string name="de_fazer_e_um_a">" de fazer, é um(a) "</string>
+    <string name="eh">" é "</string>
+    <string name="a_receita">A receita </string>
 </resources>
