@@ -4,17 +4,21 @@ import java.util.List;
 
 public class Receita {
 
+    public static final String INICIANTE     = "Iniciante";
+    public static final String INTERMEDIARIO     = "Intermediário";
+    public static final String EXPERIENTE = "Experiente";
+
     private int id;
     private String nome;
     private String complexidade;
-    private List<String> tipoDeIngredientes;
+    private String tipoDeIngredientes;
     private String categoria;
     private int criadoPor;
     private List<String> ingredientes;
     private String tempoDePreparo;
     private String modoDePreparo;
 
-    public Receita(int id, String nome, String complexidade, List<String> tipoDeIngredientes, String categoria, int criadoPor, List<String> ingredientes, String tempoDePreparo, String modoDePreparo) {
+    public Receita(int id, String nome, String complexidade, String tipoDeIngredientes, String categoria, int criadoPor, List<String> ingredientes, String tempoDePreparo, String modoDePreparo) {
         this.id = id;
         this.nome = nome;
         this.complexidade = complexidade;
@@ -26,11 +30,11 @@ public class Receita {
         this.modoDePreparo = modoDePreparo;
     }
 
-    public Receita(String nome, String complexidade, String categoria, String tempoDePreparo) {
+    public Receita(String nome, String complexidade, String categoria, String tipoDeIngredientes) {
         this.nome = nome;
         this.complexidade = complexidade;
         this.categoria = categoria;
-        this.tempoDePreparo = tempoDePreparo;
+        this.tipoDeIngredientes = tipoDeIngredientes;
     }
 
     public Receita() {
@@ -60,11 +64,11 @@ public class Receita {
         this.complexidade = complexidade;
     }
 
-    public List<String> getTipoDeIngredientes() {
+    public String getTipoDeIngredientes() {
         return tipoDeIngredientes;
     }
 
-    public void setTipoDeIngredientes(List<String> tipoDeIngredientes) {
+    public void setTipoDeIngredientes(String tipoDeIngredientes) {
         this.tipoDeIngredientes = tipoDeIngredientes;
     }
 
@@ -114,6 +118,6 @@ public class Receita {
         return "Nome: " + getNome() +
                 "\nCategoria: " + getCategoria() +
                 "\nComplexidade : " + getComplexidade() +
-                "\nTempo de preparo: " + getTempoDePreparo() + " minutos";
+                "\nTipo de ingredientes: " + getTipoDeIngredientes();
       }
 }

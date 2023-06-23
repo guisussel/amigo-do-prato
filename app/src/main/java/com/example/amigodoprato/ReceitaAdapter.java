@@ -19,7 +19,7 @@ public class ReceitaAdapter extends BaseAdapter {
         public TextView textViewNome;
         public TextView textViewCategoria;
         public TextView textViewComplexidade;
-        public TextView textViewTempoDePreparo;
+        public TextView textViewTipoDeIngredientes;
     }
 
     public ReceitaAdapter(Context context, List<Receita> listaDeReceitas) {
@@ -55,7 +55,7 @@ public class ReceitaAdapter extends BaseAdapter {
             receitaHolder.textViewNome = view.findViewById(R.id.textViewValorNome);
             receitaHolder.textViewCategoria = view.findViewById(R.id.textViewValorCategoria);
             receitaHolder.textViewComplexidade = view.findViewById(R.id.textViewValorComplexidade);
-            receitaHolder.textViewTempoDePreparo = view.findViewById(R.id.textViewValorTempoDePreparo);
+            receitaHolder.textViewTipoDeIngredientes = view.findViewById(R.id.textViewValorTipoDeIngredientes);
 
             view.setTag(receitaHolder);
 
@@ -67,8 +67,8 @@ public class ReceitaAdapter extends BaseAdapter {
             receitaHolder.textViewNome.setText(listaDeReceitas.get(i).getNome());
             receitaHolder.textViewCategoria.setText(listaDeReceitas.get(i).getCategoria());
             receitaHolder.textViewComplexidade.setText(listaDeReceitas.get(i).getComplexidade());
-            String tempoDePreparo = listaDeReceitas.get(i).getTempoDePreparo() + context.getString(R.string.horas) + " minutos";
-            receitaHolder.textViewTempoDePreparo.setText(tempoDePreparo);
+            String tipoDeIngredientes = listaDeReceitas.get(i).getTipoDeIngredientes();
+            receitaHolder.textViewTipoDeIngredientes.setText(tipoDeIngredientes);
 
         return view;
 

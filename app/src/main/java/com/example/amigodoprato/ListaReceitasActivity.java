@@ -1,10 +1,14 @@
 package com.example.amigodoprato;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,11 +17,13 @@ import java.util.ArrayList;
 public class ListaReceitasActivity extends AppCompatActivity {
 
     private ListView listViewReceitas;
+    private ArrayList<Receita> listaDeReceitas;
+    private ReceitaAdapter receitaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_recipes);
+        setContentView(R.layout.activity_lista_receitas);
 
         listViewReceitas = findViewById(R.id.listViewReceitas);
 
@@ -30,9 +36,9 @@ public class ListaReceitasActivity extends AppCompatActivity {
                 Receita receita = (Receita) listViewReceitas.getItemAtPosition(position);
 
                 String mensagem = getString(R.string.a_receita) + receita.getNome()
-                        + getString(R.string.eh) + receita.getComplexidade()
-                        + getString(R.string.de_fazer_e_um_a) + receita.getCategoria()
-                        + getString(R.string.que_levara) + receita.getTempoDePreparo() + getString(R.string.minutos_para_preparar);
+                        + getString(R.string.e_de_nivel) + receita.getComplexidade()
+                        + getString(R.string.da_categoria) + receita.getCategoria()
+                        + getString(R.string.e_seus_ingredientes_sao) + receita.getTipoDeIngredientes();
 
                 Toast.makeText(getApplicationContext(), mensagem, Toast.LENGTH_SHORT).show();
             }
@@ -42,21 +48,39 @@ public class ListaReceitasActivity extends AppCompatActivity {
 
     private void popularListaDeReceitas() {
 
-        String[] nomes = getResources().getStringArray(R.array.nomes);
-        String[] categorias = getResources().getStringArray(R.array.categorias);
-        String[] complexidades = getResources().getStringArray(R.array.complexidades);
-        String[] temposDePreparo = getResources().getStringArray(R.array.tempos_de_preparo);
+        listaDeReceitas = new ArrayList<>();
 
-        ArrayList<Receita> arrayListReceitas = new ArrayList<>();
-
-        for(int i = 0; i < nomes.length; i++) {
-            arrayListReceitas.add(new Receita(nomes[i], complexidades[i], categorias[i], temposDePreparo[i]));
-        }
-
-        ReceitaAdapter receitaAdapter = new ReceitaAdapter(this, arrayListReceitas);
+        receitaAdapter = new ReceitaAdapter(this, listaDeReceitas);
 
         listViewReceitas.setAdapter(receitaAdapter);
 
     }
 
+    public void adicionarNovaReceita(View view) {
+        NovaReceitaActivity.novaReceitaActivity(this);
+    }
+
+    public void abrirSobre(View view) {
+        SobreActivity.abrirActivitySobre(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            Bundle bundle = data.getExtras();
+
+            String nomeReceita = bundle.getString(NovaReceitaActivity.NOME);
+            String complexidade = bundle.getString(NovaReceitaActivity.COMPLEXIDADE);
+            String tipoIngredientes = bundle.getString(NovaReceitaActivity.TIPO_INGREDIENTES);
+            String categoria = bundle.getString(NovaReceitaActivity.CATEGORIA);
+
+            Receita receita = new Receita(nomeReceita, complexidade, categoria, tipoIngredientes);
+
+            listaDeReceitas.add(receita);
+
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Amigo do prato</string>
     <string name="digite_o_nome">Digite o nome</string>
-    <string name="qual_o_nome_do_seu_prato">Qual o nome do seu prato?</string>
+    <string name="qual_o_nome_da_sua_receita">Qual o nome da sua receita?</string>
     <string name="qual_o_nivel_de_complexidade">Qual o nível de complexidade?</string>
     <string name="iniciante">Iniciante</string>
     <string name="intermediario">Intermediário</string>
@@ -9,6 +9,7 @@
     <string name="que_tipos_de_ingrediente_utilizara">Que tipos de ingrediente utilizará?</string>
     <string name="frescos">Frescos</string>
     <string name="congelados">Congelados</string>
+    <string name="frescos_e_congelados">Frescos e Congelados</string>
     <string name="qual_a_categoria_da_receita">Qual a categoria da receita?</string>
     <string name="salvar">Salvar</string>
     <string name="limpar">Limpar</string>
@@ -24,8 +25,17 @@
     <string name="complexidade">Complexidade:</string>
     <string name="horas">" horas"</string>
     <string name="minutos_para_preparar">" minutos para preparar!"</string>
-    <string name="que_levara">" que levará "</string>
-    <string name="de_fazer_e_um_a">" de fazer, é um(a) "</string>
-    <string name="eh">" é "</string>
-    <string name="a_receita">A receita </string>
+    <string name="e_seus_ingredientes_sao">" e seus ingredientes são "</string>
+    <string name="da_categoria">" da categoria "</string>
+    <string name="e_de_nivel">" é de nível "</string>
+    <string name="a_receita">"A receita "</string>
+    <string name="sobre_objetivo">Aplicativo que lista receitas culinárias, ingredientes e modo de preparo.</string>
+    <string name="autor">Autor: Guilherme Rodrigues Sussel \nEspecialização em linguagem Java \n susselguilherme@gmail.com</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="sobre">Sobre</string>
+    <string name="minutos">minutos</string>
+    <string name="nova_receita">Nova receita</string>
+    <string name="editor_receita">Editor receita</string>
+    <string name="receita_salva_com_sucesso">Receita salva com sucesso!</string>
+    <string name="tipo_de_ingredientes">Tipo de ingredientes: </string>
 </resources>

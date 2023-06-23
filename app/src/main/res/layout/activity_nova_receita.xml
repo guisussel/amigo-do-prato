@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MainActivity">
+    tools:context=".NovaReceitaActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,12 +19,12 @@
             android:layout_marginStart="48dp"
             android:layout_marginLeft="48dp"
             android:layout_marginTop="32dp"
-            android:text="@string/qual_o_nome_do_seu_prato"
+            android:text="@string/qual_o_nome_da_sua_receita"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextNomePrato"
+            android:id="@+id/editTextNomeReceita"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/qual_o_nivel_de_complexidade"
-            app:layout_constraintStart_toStartOf="@+id/editTextNomePrato"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNomePrato" />
+            app:layout_constraintStart_toStartOf="@+id/editTextNomeReceita"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNomeReceita" />
 
 
         <RadioGroup
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:onClick="salvarDados"
+            android:onClick="salvarNovaReceita"
             android:text="@string/salvar"
             app:layout_constraintStart_toStartOf="@+id/spinnerCategoria"
             app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
