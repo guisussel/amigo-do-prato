@@ -52,4 +52,7 @@
     <string name="massas">Pasta</string>
     <string name="peixes_frutos_mar">Fish and Seafood</string>
     <string name="saladas_molhos_acompanhamentos">Salads, Sauces, and Side Dishes</string>
+    <string name="modo">Mode</string>
+    <string name="modo_claro_ativado">Dark mode activated!</string>
+    <string name="modo_escuro_ativado">Light mode activated!</string>
 </resources>

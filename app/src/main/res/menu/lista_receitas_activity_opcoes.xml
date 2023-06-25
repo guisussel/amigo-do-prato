@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuSwitch"
+        android:icon="@drawable/modo_escuro"
+        android:title="@string/modo"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuItemAdicionar"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/adicionar"

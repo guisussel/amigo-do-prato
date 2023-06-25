@@ -3,10 +3,14 @@ package com.example.amigodoprato;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ActionMode;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -29,6 +33,14 @@ public class ListaReceitasActivity extends AppCompatActivity {
 
     private ActionMode actionMode;
     private View viewSelecionada;
+
+    private static final String ARQUIVO = "com.amigodoprato.sp.PREFERENCIA_MODO";
+
+    private static final String MODO = "MODO";
+
+    private String modo = "claro";
+
+    private static MenuItem menuItemModo;
 
     private androidx.appcompat.view.ActionMode.Callback mActionModeCallback = new androidx.appcompat.view.ActionMode.Callback() {
         @Override
@@ -72,7 +84,6 @@ public class ListaReceitasActivity extends AppCompatActivity {
             listViewReceitas.setEnabled(true);
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +172,9 @@ public class ListaReceitasActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lista_receitas_activity_opcoes, menu);
+        menuItemModo = menu.findItem(R.id.menuSwitch);
+
+        carregarPreferenciaModo();
         return true;
     }
 
@@ -174,6 +188,21 @@ public class ListaReceitasActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.menuItemSobre) {
             SobreActivity.abrirActivitySobre(this);
+            return true;
+        }
+
+        if(item.getItemId() == R.id.menuSwitch) {
+            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                item.setIcon(R.drawable.modo_claro);
+                salvarPreferenciaModo("claro");
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                item.setIcon(R.drawable.modo_escuro);
+                salvarPreferenciaModo("escuro");
+            }
+            recreate();
             return true;
         }
 
@@ -198,5 +227,37 @@ public class ListaReceitasActivity extends AppCompatActivity {
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void carregarPreferenciaModo(){
+        SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
+
+        modo = shared.getString(MODO, modo);
+
+        alteraModo();
+    }
+
+    private void salvarPreferenciaModo(String novoValorModo) {
+        SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.putString(MODO, novoValorModo);
+
+        editor.apply();
+
+        modo = novoValorModo;
+
+        alteraModo();
+    }
+
+    private void alteraModo() {
+        if (modo.equals("claro")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            menuItemModo.setIcon(R.drawable.modo_escuro);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            menuItemModo.setIcon(R.drawable.modo_claro);
+        }
     }
 }

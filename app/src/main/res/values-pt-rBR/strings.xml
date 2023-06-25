@@ -53,4 +53,7 @@
     <string name="massas">Massas</string>
     <string name="peixes_frutos_mar">Peixes e frutos do mar</string>
     <string name="saladas_molhos_acompanhamentos">Saladas, molhos e acompanhamentos</string>
+    <string name="modo">Modo</string>
+    <string name="modo_claro_ativado">Modo claro ativado!</string>
+    <string name="modo_escuro_ativado">Modo escuro ativado!</string>
 </resources>
