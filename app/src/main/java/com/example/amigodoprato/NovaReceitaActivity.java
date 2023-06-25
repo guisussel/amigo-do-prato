@@ -118,17 +118,17 @@ public class NovaReceitaActivity extends AppCompatActivity {
     private void popularSpinnerCategorias() {
         ArrayList<String> arrayListCategorias = new ArrayList<>();
 
-        arrayListCategorias.add("Selecione...");
-        arrayListCategorias.add("Alimentação saudável");
-        arrayListCategorias.add("Aves");
-        arrayListCategorias.add("Bebidas");
-        arrayListCategorias.add("Bolos e tortas salgados");
-        arrayListCategorias.add("Carnes");
-        arrayListCategorias.add("Doces e sobremesas");
-        arrayListCategorias.add("Lanches");
-        arrayListCategorias.add("Massas");
-        arrayListCategorias.add("Peixes e frutos do mar");
-        arrayListCategorias.add("Saladas, molhos e acompanhamentos");
+        arrayListCategorias.add(getString(R.string.selecione));
+        arrayListCategorias.add(getString(R.string.alimentacao_saudavel));
+        arrayListCategorias.add(getString(R.string.aves));
+        arrayListCategorias.add(getString(R.string.bebidas));
+        arrayListCategorias.add(getString(R.string.bolos_tortas_salgados));
+        arrayListCategorias.add(getString(R.string.carnes));
+        arrayListCategorias.add(getString(R.string.doces_sobremesas));
+        arrayListCategorias.add(getString(R.string.lanches));
+        arrayListCategorias.add(getString(R.string.massas));
+        arrayListCategorias.add(getString(R.string.peixes_frutos_mar));
+        arrayListCategorias.add(getString(R.string.saladas_molhos_acompanhamentos));
 
         ArrayAdapter<String> arrayAdapterSpinnerCategorias = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListCategorias);
 
