@@ -38,4 +38,7 @@
     <string name="editor_receita">Editor receita</string>
     <string name="receita_salva_com_sucesso">Receita salva com sucesso!</string>
     <string name="tipo_de_ingredientes">Tipo de ingredientes: </string>
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+    <string name="receita_excluida_com_sucesso">Receita excluída com sucesso!</string>
 </resources>

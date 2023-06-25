@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,10 +32,10 @@ public class NovaReceitaActivity extends AppCompatActivity {
     private CheckBox checkBoxFrescos, checkBoxCongelados;
     private Spinner spinnerCategoria;
 
+    private String nomeOriginal, complexidadeOriginal, tipoIngredientesOriginal, categoriaOriginal;
+
     public static final int NOVO = 1;
     public static final int ALTERAR = 2;
-
-    private int modo;
 
     public static void novaReceitaActivity(AppCompatActivity activity){
 
@@ -55,12 +57,49 @@ public class NovaReceitaActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         if (bundle != null) {
-            modo = bundle.getInt(MODO, NOVO);
+            int modo = bundle.getInt(MODO, NOVO);
 
             if (modo == NOVO) {
                 setTitle(getString(R.string.nova_receita));
-            } else {
-                //editar
+            }
+            if (modo == ALTERAR) {
+                nomeOriginal = bundle.getString(NOME);
+                complexidadeOriginal = bundle.getString(COMPLEXIDADE);
+                tipoIngredientesOriginal = bundle.getString(TIPO_INGREDIENTES);
+                categoriaOriginal = bundle.getString(categoriaOriginal);
+
+                editTextNomeReceita.setText(nomeOriginal);
+
+                int count = radioGroupComplexidade.getChildCount();
+                for (int i = 0; i < count; i++) {
+                    View view = radioGroupComplexidade.getChildAt(i);
+                    if (view instanceof RadioButton) {
+                        RadioButton radioButton = (RadioButton) view;
+                        if (radioButton.getText().toString().equals(complexidadeOriginal)) {
+                            radioButton.setChecked(true);
+                            break;
+                        }
+                    }
+                }
+
+                if (tipoIngredientesOriginal.equals(getString(R.string.frescos_e_congelados))) {
+                  checkBoxFrescos.setChecked(true);
+                  checkBoxCongelados.setChecked(true);
+                } else if(tipoIngredientesOriginal.equals(getString(R.string.frescos))) {
+                    checkBoxFrescos.setChecked(true);
+                } else {
+                    checkBoxCongelados.setChecked(true);
+                }
+
+                int itemCount = spinnerCategoria.getCount();
+                for (int i = 0; i < itemCount; i++) {
+                    String item = (String) spinnerCategoria.getItemAtPosition(i);
+                    if (item.equals(categoriaOriginal)) {
+                        spinnerCategoria.setSelection(i);
+                        break;
+                    }
+                }
+
                 setTitle(getString(R.string.editor_receita));
             }
         }
@@ -96,7 +135,7 @@ public class NovaReceitaActivity extends AppCompatActivity {
         spinnerCategoria.setAdapter(arrayAdapterSpinnerCategorias);
     }
 
-    public void limparCampos(View view) {
+    public void limparCampos() {
         editTextNomeReceita.setText(null);
         radioGroupComplexidade.clearCheck();
         checkBoxCongelados.setChecked(false);
@@ -106,7 +145,7 @@ public class NovaReceitaActivity extends AppCompatActivity {
         Toast.makeText(this, getString(R.string.campos_limpos_com_sucesso), Toast.LENGTH_SHORT).show();
     }
 
-    public void salvarNovaReceita(View view) {
+    public void salvarNovaReceita() {
         if(editTextNomeReceita.getText().toString().trim().equals("")) {
             Toast.makeText(this, getString(R.string.o_nome_do_prato_nao_pode_ser_vazio), Toast.LENGTH_SHORT).show();
             editTextNomeReceita.requestFocus();
@@ -170,15 +209,45 @@ public class NovaReceitaActivity extends AppCompatActivity {
         finish();
     }
 
+    public static void alterarReceita(AppCompatActivity activity, Receita receita){
 
-    public void cancelar(View view){
-        onBackPressed();
+        Intent intent = new Intent(activity, NovaReceitaActivity.class);
+
+        intent.putExtra(MODO, ALTERAR);
+        intent.putExtra(NOME, receita.getNome());
+        intent.putExtra(COMPLEXIDADE, receita.getComplexidade());
+        intent.putExtra(TIPO_INGREDIENTES, receita.getTipoDeIngredientes());
+        intent.putExtra(CATEGORIA, receita.getCategoria());
+
+        activity.startActivityForResult(intent, ALTERAR);
     }
 
     @Override
     public void onBackPressed() {
         setResult(Activity.RESULT_CANCELED);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nova_receita_activity_opcoes, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menuItemSalvarReceita) {
+            salvarNovaReceita();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.menuItemLimparReceita) {
+            limparCampos();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

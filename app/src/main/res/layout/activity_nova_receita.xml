@@ -120,26 +120,26 @@
             app:layout_constraintStart_toStartOf="@+id/textViewCategoria"
             app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
 
-        <Button
-            android:id="@+id/buttonSalvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:onClick="salvarNovaReceita"
-            android:text="@string/salvar"
-            app:layout_constraintStart_toStartOf="@+id/spinnerCategoria"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
+<!--        <Button-->
+<!--            android:id="@+id/buttonSalvar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:onClick="salvarNovaReceita"-->
+<!--            android:text="@string/salvar"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/spinnerCategoria"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />-->
 
-        <Button
-            android:id="@+id/buttonLimpar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:onClick="limparCampos"
-            android:text="@string/limpar"
-            app:layout_constraintStart_toEndOf="@+id/buttonSalvar"
-            app:layout_constraintTop_toTopOf="@+id/buttonSalvar" />
+<!--        <Button-->
+<!--            android:id="@+id/buttonLimpar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:layout_marginLeft="24dp"-->
+<!--            android:onClick="limparCampos"-->
+<!--            android:text="@string/limpar"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/buttonSalvar"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/buttonSalvar" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
