@@ -56,4 +56,11 @@
     <string name="modo">Modo</string>
     <string name="modo_claro_ativado">Modo claro ativado!</string>
     <string name="modo_escuro_ativado">Modo escuro ativado!</string>
+    <string name="aviso">Aviso</string>
+    <string name="ok">Ok</string>
+    <string name="voltar">Voltar</string>
+    <string name="confirmacao">Confirmação</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="deseja_realmente_excluir_a_receita">"Deseja realmente excluir a receita?\n"</string>
 </resources>

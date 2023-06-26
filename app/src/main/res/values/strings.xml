@@ -55,4 +55,11 @@
     <string name="modo">Mode</string>
     <string name="modo_claro_ativado">Dark mode activated!</string>
     <string name="modo_escuro_ativado">Light mode activated!</string>
+    <string name="aviso">Warning</string>
+    <string name="ok">Ok</string>
+    <string name="voltar">Back</string>
+    <string name="confirmacao">Confirm</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
+    <string name="deseja_realmente_excluir_a_receita">"Do you really want to delete the recipe?\n"</string>
 </resources>

@@ -1,13 +1,12 @@
 package com.example.amigodoprato;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ActionMode;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -22,7 +21,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.amigodoprato.database.ReceitaDatabase;
+import com.example.amigodoprato.utils.DialogUtils;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaReceitasActivity extends AppCompatActivity {
 
@@ -57,14 +60,17 @@ public class ListaReceitasActivity extends AppCompatActivity {
 
         @Override
         public boolean onActionItemClicked(androidx.appcompat.view.ActionMode mode, MenuItem item) {
-            if(item.getItemId() == R.id.contextMenuItemEditar) {
-                editarReceita();
+
+            Receita receita = (Receita) listViewReceitas.getItemAtPosition(posicaoSelecionada);
+
+            if (item.getItemId() == R.id.contextMenuItemEditar) {
+                editarReceita(ListaReceitasActivity.this, NovaReceitaActivity.ALTERAR, receita);
                 mode.finish();
                 return true;
             }
 
-            if(item.getItemId() == R.id.contextMenuItemExcluir) {
-                excluirReceita();
+            if (item.getItemId() == R.id.contextMenuItemExcluir) {
+                excluirReceita(receita);
                 mode.finish();
                 return true;
             }
@@ -74,7 +80,7 @@ public class ListaReceitasActivity extends AppCompatActivity {
 
         @Override
         public void onDestroyActionMode(androidx.appcompat.view.ActionMode mode) {
-            if (viewSelecionada != null){
+            if (viewSelecionada != null) {
                 viewSelecionada.setBackgroundColor(Color.TRANSPARENT);
             }
 
@@ -113,7 +119,7 @@ public class ListaReceitasActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (actionMode != null){
+                if (actionMode != null) {
                     return false;
                 }
 
@@ -136,36 +142,55 @@ public class ListaReceitasActivity extends AppCompatActivity {
     }
 
     private void popularListaDeReceitas() {
-        listaDeReceitas = new ArrayList<>();
+
+        ReceitaDatabase receitaDatabase = ReceitaDatabase.getDatabase(this);
+        List<Receita> listaDeReceitas = receitaDatabase.receitaDAO().queryAll();
+
         receitaAdapter = new ReceitaAdapter(this, listaDeReceitas);
         listViewReceitas.setAdapter(receitaAdapter);
     }
 
-    private void excluirReceita() {
-        listaDeReceitas.remove(posicaoSelecionada);
-        receitaAdapter.notifyDataSetChanged();
-        Toast.makeText(getApplicationContext(), R.string.receita_excluida_com_sucesso, Toast.LENGTH_SHORT).show();
+    private void excluirReceita(Receita receita) {
+
+        String mensagemExclusaoReceita = getString(R.string.deseja_realmente_excluir_a_receita) + receita.getNome();
+
+        DialogInterface.OnClickListener dialogInterfaceListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int opcaoClicada) {
+                if (opcaoClicada == DialogInterface.BUTTON_POSITIVE) {
+
+                    ReceitaDatabase receitaDatabase = ReceitaDatabase.getDatabase(ListaReceitasActivity.this);
+
+                    receitaDatabase.receitaDAO().delete(receita);
+
+//                    receitaAdapter.notifyDataSetChanged();
+                    popularListaDeReceitas();
+                    Toast.makeText(getApplicationContext(), R.string.receita_excluida_com_sucesso, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (opcaoClicada == DialogInterface.BUTTON_NEGATIVE) {
+                    return;
+                }
+            }
+        };
+
+        DialogUtils.dialogConfirmacao(this, mensagemExclusaoReceita, dialogInterfaceListener);
+
     }
 
-    private void editarReceita() {
-        Receita receita = listaDeReceitas.get(posicaoSelecionada);
+    private void editarReceita(Activity activity, int requestCode, Receita receita) {
 
-        NovaReceitaActivity.alterarReceita(this, receita);
+        NovaReceitaActivity.alterarReceita(activity, requestCode, receita);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == NovaReceitaActivity.NOVO || requestCode == NovaReceitaActivity.ALTERAR) &&
+                resultCode == Activity.RESULT_OK) {
 
-        if (resultCode == Activity.RESULT_OK) {
-
-            Bundle bundle = data.getExtras();
-            String nomeReceita = bundle.getString(NovaReceitaActivity.NOME);
-            String complexidade = bundle.getString(NovaReceitaActivity.COMPLEXIDADE);
-            String tipoIngredientes = bundle.getString(NovaReceitaActivity.TIPO_INGREDIENTES);
-            String categoria = bundle.getString(NovaReceitaActivity.CATEGORIA);
-            Receita receita = new Receita(nomeReceita, complexidade, categoria, tipoIngredientes);
-            listaDeReceitas.add(receita);
+            popularListaDeReceitas();
         }
     }
 
@@ -182,7 +207,7 @@ public class ListaReceitasActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menuItemAdicionar) {
-            NovaReceitaActivity.novaReceitaActivity(this);
+            NovaReceitaActivity.novaReceita(this, NovaReceitaActivity.NOVO);
             return true;
         }
 
@@ -191,7 +216,7 @@ public class ListaReceitasActivity extends AppCompatActivity {
             return true;
         }
 
-        if(item.getItemId() == R.id.menuSwitch) {
+        if (item.getItemId() == R.id.menuSwitch) {
             int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -216,20 +241,26 @@ public class ListaReceitasActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.contextMenuItemEditar) {
-            editarReceita();
+//        AdapterView.AdapterContextMenuInfo info;
+//
+//        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        Receita receita = (Receita) listViewReceitas.getItemAtPosition(posicaoSelecionada);
+
+        if (item.getItemId() == R.id.contextMenuItemEditar) {
+            editarReceita(this, NovaReceitaActivity.ALTERAR, receita);
         }
 
-        if(item.getItemId() == R.id.contextMenuItemExcluir) {
-            excluirReceita();
+        if (item.getItemId() == R.id.contextMenuItemExcluir) {
+            excluirReceita(receita);
         }
 
         return super.onContextItemSelected(item);
     }
 
-    private void carregarPreferenciaModo(){
+    private void carregarPreferenciaModo() {
         SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
 
         modo = shared.getString(MODO, modo);

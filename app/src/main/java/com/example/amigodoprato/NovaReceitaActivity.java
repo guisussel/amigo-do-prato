@@ -9,13 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.amigodoprato.database.ReceitaDatabase;
+import com.example.amigodoprato.utils.DialogUtils;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,9 @@ public class NovaReceitaActivity extends AppCompatActivity {
     public static final String TIPO_INGREDIENTES = "TIPO_INGREDIENTES";
     public static final String CATEGORIA = "CATEGORIA";
 
+
+    public static final String ID_RECEITA = "ID_RECEITA";
+
     private EditText editTextNomeReceita;
     private RadioGroup radioGroupComplexidade;
     private CheckBox checkBoxFrescos, checkBoxCongelados;
@@ -37,13 +42,26 @@ public class NovaReceitaActivity extends AppCompatActivity {
     public static final int NOVO = 1;
     public static final int ALTERAR = 2;
 
-    public static void novaReceitaActivity(AppCompatActivity activity){
+    private int modo;
+    private Receita receita;
+
+    public static void novaReceita(Activity activity, int requestCode) {
 
         Intent intent = new Intent(activity, NovaReceitaActivity.class);
 
         intent.putExtra(MODO, NOVO);
 
-        activity.startActivityForResult(intent, NOVO);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void alterarReceita(Activity activity, int requestCode, Receita receita){
+
+        Intent intent = new Intent(activity, NovaReceitaActivity.class);
+
+        intent.putExtra(MODO, ALTERAR);
+        intent.putExtra(ID_RECEITA, receita.getId());
+
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -57,50 +75,52 @@ public class NovaReceitaActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         if (bundle != null) {
-            int modo = bundle.getInt(MODO, NOVO);
+            modo = bundle.getInt(MODO, NOVO);
 
             if (modo == NOVO) {
                 setTitle(getString(R.string.nova_receita));
-            }
-            if (modo == ALTERAR) {
-                nomeOriginal = bundle.getString(NOME);
-                complexidadeOriginal = bundle.getString(COMPLEXIDADE);
-                tipoIngredientesOriginal = bundle.getString(TIPO_INGREDIENTES);
-                categoriaOriginal = bundle.getString(categoriaOriginal);
+                receita = new Receita();
+            } else {
+                setTitle(getString(R.string.editor_receita));
 
-                editTextNomeReceita.setText(nomeOriginal);
+                int idReceita = bundle.getInt(ID_RECEITA);
+
+                ReceitaDatabase receitaDatabase = ReceitaDatabase.getDatabase(this);
+
+                receita = receitaDatabase.receitaDAO().queryForId(idReceita);
+
+                editTextNomeReceita.setText(receita.getNome());
 
                 int count = radioGroupComplexidade.getChildCount();
                 for (int i = 0; i < count; i++) {
                     View view = radioGroupComplexidade.getChildAt(i);
                     if (view instanceof RadioButton) {
                         RadioButton radioButton = (RadioButton) view;
-                        if (radioButton.getText().toString().equals(complexidadeOriginal)) {
+                        if (radioButton.getText().toString().equals(receita.getComplexidade())) {
                             radioButton.setChecked(true);
                             break;
                         }
                     }
                 }
 
-                if (tipoIngredientesOriginal.equals(getString(R.string.frescos_e_congelados))) {
-                  checkBoxFrescos.setChecked(true);
-                  checkBoxCongelados.setChecked(true);
-                } else if(tipoIngredientesOriginal.equals(getString(R.string.frescos))) {
+                if (receita.getTipoDeIngredientes().equals(getString(R.string.frescos_e_congelados))) {
+                    checkBoxFrescos.setChecked(true);
+                    checkBoxCongelados.setChecked(true);
+                } else if (receita.getTipoDeIngredientes().equals(getString(R.string.frescos))) {
                     checkBoxFrescos.setChecked(true);
                 } else {
                     checkBoxCongelados.setChecked(true);
                 }
 
                 int itemCount = spinnerCategoria.getCount();
-                for (int i = 0; i < itemCount; i++) {
-                    String item = (String) spinnerCategoria.getItemAtPosition(i);
-                    if (item.equals(categoriaOriginal)) {
-                        spinnerCategoria.setSelection(i);
+                for (int posicao = 0; posicao < itemCount; posicao++) {
+                    String item = (String) spinnerCategoria.getItemAtPosition(posicao);
+                    if (item.equals(receita.getCategoria())) {
+                        spinnerCategoria.setSelection(posicao);
                         break;
                     }
                 }
 
-                setTitle(getString(R.string.editor_receita));
             }
         }
         editTextNomeReceita.requestFocus();
@@ -146,25 +166,25 @@ public class NovaReceitaActivity extends AppCompatActivity {
     }
 
     public void salvarNovaReceita() {
-        if(editTextNomeReceita.getText().toString().trim().equals("")) {
-            Toast.makeText(this, getString(R.string.o_nome_do_prato_nao_pode_ser_vazio), Toast.LENGTH_SHORT).show();
+        if (editTextNomeReceita.getText().toString().trim().equals("")) {
+            DialogUtils.dialogAvisoErroPadrão(this, R.string.o_nome_do_prato_nao_pode_ser_vazio);
             editTextNomeReceita.requestFocus();
             return;
         }
 
-        if(radioGroupComplexidade.getCheckedRadioButtonId() == -1) { //também pode validar por switch
-            Toast.makeText(this, getString(R.string.selecione_o_nivel_de_complexidade_da_receita), Toast.LENGTH_SHORT).show();
+        if (radioGroupComplexidade.getCheckedRadioButtonId() == -1) {
+            DialogUtils.dialogAvisoErroPadrão(this, R.string.selecione_o_nivel_de_complexidade_da_receita);
             return;
         }
 
-        if(!checkBoxFrescos.isChecked() && !checkBoxCongelados.isChecked()) {
-            Toast.makeText(this, getString(R.string.selecione_o_tipo_de_ingrediente), Toast.LENGTH_SHORT).show();
+        if (!checkBoxFrescos.isChecked() && !checkBoxCongelados.isChecked()) {
+            DialogUtils.dialogAvisoErroPadrão(this, R.string.selecione_o_tipo_de_ingrediente);
             checkBoxFrescos.requestFocus();
             return;
         }
 
-        if(spinnerCategoria.getSelectedItemId() == 0) {
-            Toast.makeText(this, getString(R.string.selecione_a_categoria_da_receita), Toast.LENGTH_SHORT).show();
+        if (spinnerCategoria.getSelectedItemId() == 0) {
+            DialogUtils.dialogAvisoErroPadrão(this, R.string.selecione_a_categoria_da_receita);
             spinnerCategoria.requestFocus();
             return;
         }
@@ -196,30 +216,28 @@ public class NovaReceitaActivity extends AppCompatActivity {
 
         String categoria = (String) spinnerCategoria.getSelectedItem();
 
-        Intent intent = new Intent();
-        intent.putExtra(NOME, nomeReceita);
-        intent.putExtra(COMPLEXIDADE, complexidade);
-        intent.putExtra(TIPO_INGREDIENTES, tipoIngredientes.toString());
-        intent.putExtra(CATEGORIA, categoria);
+        receita.setNome(nomeReceita);
+        receita.setComplexidade(complexidade);
+        receita.setTipoDeIngredientes(tipoIngredientes.toString());
+        receita.setCategoria(categoria);
 
-        setResult(Activity.RESULT_OK, intent);
+
+        ReceitaDatabase receitaDatabase = ReceitaDatabase.getDatabase(this);
+
+        if (modo == NOVO) {
+
+            receitaDatabase.receitaDAO().insert(receita);
+
+        } else {
+
+            receitaDatabase.receitaDAO().update(receita);
+        }
+
+        setResult(Activity.RESULT_OK);
 
         Toast.makeText(this, R.string.receita_salva_com_sucesso, Toast.LENGTH_SHORT).show();
 
         finish();
-    }
-
-    public static void alterarReceita(AppCompatActivity activity, Receita receita){
-
-        Intent intent = new Intent(activity, NovaReceitaActivity.class);
-
-        intent.putExtra(MODO, ALTERAR);
-        intent.putExtra(NOME, receita.getNome());
-        intent.putExtra(COMPLEXIDADE, receita.getComplexidade());
-        intent.putExtra(TIPO_INGREDIENTES, receita.getTipoDeIngredientes());
-        intent.putExtra(CATEGORIA, receita.getCategoria());
-
-        activity.startActivityForResult(intent, ALTERAR);
     }
 
     @Override
