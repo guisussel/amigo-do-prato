@@ -31,7 +31,7 @@
     <string name="e_de_nivel">" é de nível "</string>
     <string name="a_receita">"A receita "</string>
     <string name="sobre_objetivo">Aplicativo que lista receitas culinárias, ingredientes e modo de preparo.</string>
-    <string name="autor">Autor: Guilherme Rodrigues Sussel  Especialização em linguagem Java   susselguilherme@gmail.com</string>
+    <string name="autor">Autor: Guilherme Rodrigues Sussel \n Desenvolvimento Java Para Dispositivos Móveis \n susselguilherme@gmail.com</string>
     <string name="adicionar">Adicionar</string>
     <string name="sobre">Sobre</string>
     <string name="minutos">minutos</string>
